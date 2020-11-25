@@ -56,7 +56,7 @@ CREATE TABLE `product` (
   PRIMARY KEY (`id`),
   KEY `category_id` (`category_id`),
   CONSTRAINT `product_ibfk_1` FOREIGN KEY (`category_id`) REFERENCES `category` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -65,6 +65,7 @@ CREATE TABLE `product` (
 
 LOCK TABLES `product` WRITE;
 /*!40000 ALTER TABLE `product` DISABLE KEYS */;
+INSERT INTO `product` VALUES (1,'iPhone 11',NULL,121212000,'images/iphone11.png',1),(2,'iPhone 12',NULL,121321,'images/iphone11.png',1),(3,'iPad',NULL,21332,'images/iphone11.png',2);
 /*!40000 ALTER TABLE `product` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -95,7 +96,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (3,'Nam','a@gmail.com','user1','c4ca4238a0b923820dcc509a6f75849b',1,'2020-11-18','images/upload/Koala.jpg','USER');
+INSERT INTO `user` VALUES (3,'Nam','a@gmail.com','user1','e10adc3949ba59abbe56e057f20f883e',1,'2020-11-18','images/upload/Koala.jpg','ADMIN');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -108,4 +109,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-11-18 16:56:53
+-- Dump completed on 2020-11-25 16:46:38

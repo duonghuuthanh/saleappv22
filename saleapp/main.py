@@ -1,4 +1,4 @@
-from flask import render_template, request, redirect
+from flask import render_template, request, redirect, jsonify, session
 from saleapp import app, utils, login
 from saleapp.admin import *
 from saleapp.models import User
@@ -77,6 +77,38 @@ def login_usr():
             login_user(user=user)
 
     return redirect('/admin')
+
+
+@app.route('/api/cart', methods=['post'])
+def cart():
+    if 'cart' not in session:
+        session['cart'] = {}
+
+    data = request.json
+    product_id = str(data.get('id'))
+    product_name = data.get('name')
+    price = data.get('price', 0)
+
+    cart = session['cart']
+    if product_id in cart: # có sản phẩm trong giỏ
+        cart[product_id]['quantity'] = cart[product_id]['quantity'] + 1
+    else: # chưa có sản phẩm trong giỏ
+        cart[product_id] = {
+            "product_id": product_id,
+            "product_name": product_name,
+            "price": price,
+            "quantity": 1
+        }
+
+    session["cart"] = cart
+
+    total_quantity, total_amount = utils.cart_stats(session['cart'])
+
+    return jsonify({
+        'total_quantity': total_quantity,
+        'total_amount': total_amount,
+        'cart': session['cart']
+    })
 
 
 @login.user_loader
