@@ -33,6 +33,8 @@ class Product(SaleBase):
     category_id = Column(Integer, ForeignKey(Category.id),
                          nullable=False)
 
+    receipt_details = relationship('ReceiptDetail', backref='product', lazy=True)
+
 
 class UserRole(UserEnum):
     USER = 1
@@ -49,6 +51,24 @@ class User(SaleBase, UserMixin):
     joined_date = Column(Date, default=datetime.now())
     avatar = Column(String(100))
     user_role = Column(Enum(UserRole), default=UserRole.USER)
+
+    receipts = relationship('Receipt', backref='customer', lazy=True)
+
+
+class Receipt(db.Model):
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    created_date = Column(Date, default=datetime.today())
+    customer_id = Column(Integer, ForeignKey(User.id))
+
+    details = relationship('ReceiptDetail', backref='receipt', lazy=True)
+
+
+class ReceiptDetail(db.Model):
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    product_id = Column(Integer, ForeignKey(Product.id))
+    receipt_id = Column(Integer, ForeignKey(Receipt.id))
+    quantity = Column(Integer, default=0)
+    price = Column(Integer, default=0)
 
 
 if __name__ == '__main__':

@@ -15,3 +15,15 @@ function addToCart(id, name, price) {
         info.innerText = `${data.total_quantity} - ${data.total_amount} VNĐ`;
     })
 }
+
+function pay() {
+    fetch('/payment', {
+        "method": "POST",
+        headers: {
+            "Content-Type": "application/json"
+        }
+    }).then(res => res.json()).then(data => {
+        console.info(data);
+        alert(data.message);
+    }).catch(res => console.log(res))
+}

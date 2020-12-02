@@ -1,6 +1,6 @@
 import json, hashlib
 from saleapp import db
-from saleapp.models import User, Product
+from saleapp.models import User, Product, Receipt, ReceiptDetail
 
 
 def read_data(path='data/categories.json'):
@@ -65,8 +65,33 @@ def add_user(name, email, username, password, avatar):
 
 
 def cart_stats(cart):
+    if cart is None:
+        return 0, 0
+
     products = cart.values()
     total_quantity = sum([p['quantity'] for p in products])
     total_amount = sum([p['price'] for p in products])
 
     return total_quantity, total_amount
+
+
+def add_receipt(cart):
+    # if cart:
+    # try:
+    receipt = Receipt(customer_id=3)
+    db.session.add(receipt)
+
+    for p in list(cart.values()):
+        detail = ReceiptDetail(product_id=int(p['product_id']),
+                               receipt_id=receipt.id,
+                               quantity=p['quantity'],
+                               price=p['price'])
+        db.session.add(detail)
+
+    db.session.commit()
+
+    return True
+        # except:
+        #     pass
+    # return False
+

@@ -106,9 +106,24 @@ def cart():
 
     return jsonify({
         'total_quantity': total_quantity,
-        'total_amount': total_amount,
-        'cart': session['cart']
+        'total_amount': total_amount
     })
+
+
+@app.route('/payment', methods=['get', 'post'])
+def payment():
+    if request.method == 'POST':
+        if utils.add_receipt(session.get('cart')):
+            del session['cart']
+
+            return jsonify({'message': "Added receipt successful!!!"})
+
+    quan, amount = utils.cart_stats(session.get('cart'))
+    cart_info = {
+        'total_quantity': quan,
+        'total_amount': amount
+    }
+    return render_template('payment.html', cart_info=cart_info)
 
 
 @login.user_loader

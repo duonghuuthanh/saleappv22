@@ -11,7 +11,11 @@
 </head>
 <body>
     <div class="container">
-        <h1 class="text-center">QUẢN LÝ SẢN PHẨM <span id="cart-stats" class="badge badge-primary">0</span></h1>
+        <h1 class="text-center">QUẢN LÝ SẢN PHẨM
+            <a href="{{ url_for('payment') }}"
+                    id="cart-stats"
+               class="badge badge-primary">0</a>
+        </h1>
         <div>
             <form>
                 <div class="form-group">
